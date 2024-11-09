@@ -6,7 +6,6 @@ userRouter.post("/metadata", (req, res) => {
 
 });
 
-
 userRouter.get("/metadata/bulk", (req, res) => {
 
 });

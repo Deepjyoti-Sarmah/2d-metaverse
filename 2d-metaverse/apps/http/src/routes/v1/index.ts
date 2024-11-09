@@ -6,15 +6,15 @@ import { adminRouter } from "./admin";
 export const router = Router();
 
 router.post("/signup", (req, res) => {
-    res.json({
-        message: "signup"
-    });
+  res.json({
+    message: "signup"
+  });
 });
 
 router.post("/signin", (req, res) => {
-    res.json({
-        message: "signup"
-    });
+  res.json({
+    message: "signup"
+  });
 });
 
 router.get("/element", (req, res) => {
