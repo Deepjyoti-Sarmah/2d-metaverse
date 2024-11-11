@@ -2,7 +2,7 @@ import { Router } from "express";
 import { userRouter } from "./user";
 import { spaceRouter } from "./space";
 import { adminRouter } from "./admin";
-import { SigninSchema, SignupScheme } from "../../types";
+import { CreateAvatarSchema, SigninSchema, SignupScheme } from "../../types";
 import client from "@repo/db/client";
 import { hash, compare } from "../../scrypt";
 import jwt from "jsonwebtoken";
@@ -87,15 +87,55 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.get("/element", (req, res) => {
-  res.status(200).json({
-    message: "element returned"
-  });
+router.get("/element", async (req, res) => {
+  try {
+    const elements = await client.element.findMany()
 
+    if (!elements) {
+      res.status(400).json({
+        message: "elements not found"
+      });
+      return;
+    }
+
+    res.status(200).json({
+      elements: elements.map(e => ({
+        id: e.id,
+        imageUrl: e.imageUrl,
+        width: e.width,
+        height: e.height,
+        static: e.static
+      }))
+    });
+  } catch (error) {
+    res.status(200).json({
+      message: "Internal server error"
+    });
+  }
 });
 
-router.get("/avatars", (req, res) => {
+router.get("/avatars", async (req, res) => {
+  try {
+    const avatars = await client.avatar.findMany()
+    if (!avatars) {
+      res.status(400).json({
+        message: "avatars not found"
+      });
+      return;
+    }
 
+    res.status(200).json({
+      avatars: avatars.map(e => ({
+        id: e.id,
+        imageUrl: e.imageUrl,
+        name: e.name
+      }))
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error"
+    });
+  }
 });
 
 router.use("/user", userRouter);
