@@ -15,7 +15,7 @@ export const UpdateMetadataSchema = z.object({
     avatarId: z.string(),
 });
 
-export const CreateSpaceSchemaa = z.object({
+export const CreateSpaceSchema = z.object({
     name: z.string(),
     description: z.string().regex(/^[0-9]{1,4}x[0-9]{1,4}$/),
     mapId: z.string()
@@ -39,6 +39,25 @@ export const UpdateElementSchema = z.object({
     imageUrl: z.string()
 });
 
+export const UserMetadataBulkSchema = z.object({
+    // idz: z.string()
+    //         .transform((ids) => ids.split(",")
+    //         .map(Number))
+    //         .refine((ids) => ids.every((id) => !isNaN(id)), {
+    //             message: "All ids should be valid numbers"
+    //         })
+    id: z.string()
+        .transform((ids) => 
+            ids.slice(1, -1)
+                .split(",")
+                .map((id) => id.trim())
+                .map(Number)
+    )
+    .refine((ids) => ids.every((id) => !isNaN(id)), {
+        message: "All ids should be valid numbers."
+    })
+});
+
 export const CreateAvatarSchema = z.object({
     imageUrl: z.string(),
     name: z.string()
@@ -53,3 +72,12 @@ export const CreateMapSchema = z.object({
         y: z.number(),
     }))
 });
+
+declare global {
+    namespace Express {
+        export interface Request {
+            role?: "Admin" | "User";
+            userId?: string;
+        }
+    }
+}
