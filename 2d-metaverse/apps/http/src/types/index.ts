@@ -39,6 +39,10 @@ export const UpdateElementSchema = z.object({
     imageUrl: z.string()
 });
 
+export const DeleteElementSchema = z.object({
+    id: z.string(),
+});
+
 export const UserMetadataBulkSchema = z.object({
     // idz: z.string()
     //         .transform((ids) => ids.split(",")
@@ -47,15 +51,15 @@ export const UserMetadataBulkSchema = z.object({
     //             message: "All ids should be valid numbers"
     //         })
     id: z.string()
-        .transform((ids) => 
+        .transform((ids) =>
             ids.slice(1, -1)
                 .split(",")
                 .map((id) => id.trim())
                 .map(Number)
-    )
-    .refine((ids) => ids.every((id) => !isNaN(id)), {
-        message: "All ids should be valid numbers."
-    })
+        )
+        .refine((ids) => ids.every((id) => !isNaN(id)), {
+            message: "All ids should be valid numbers."
+        })
 });
 
 export const CreateAvatarSchema = z.object({
