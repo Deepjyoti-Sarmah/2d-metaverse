@@ -211,8 +211,8 @@ describe("User avatar information", () => {
     })
 
     avatarId = avatarResponse.data.avatarId;
-
-  })
+    console.log("avatarId", avatarId);
+  });
 
   test("Get back avatar information for a user", async () => {
     console.log("asking for user with id " + userId)

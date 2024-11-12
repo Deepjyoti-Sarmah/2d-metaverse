@@ -93,6 +93,8 @@ adminRouter.post("/avatar", adminMiddleware, async (req, res) => {
       }
     });
 
+    console.log(avatar)
+
     if (!avatar) {
       res.status(400).json({
         message: "Cannot create an avatar"
