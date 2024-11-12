@@ -108,7 +108,6 @@ adminRouter.post("/avatar", adminMiddleware, async (req, res) => {
       message: "Internal server error"
     });
   }
-
 });
 
 adminRouter.post("/map", adminMiddleware, async (req, res) => {

@@ -2,7 +2,7 @@ import { Router } from "express";
 import { userRouter } from "./user";
 import { spaceRouter } from "./space";
 import { adminRouter } from "./admin";
-import { CreateAvatarSchema, SigninSchema, SignupScheme } from "../../types";
+import { SigninSchema, SignupScheme } from "../../types";
 import client from "@repo/db/client";
 import { hash, compare } from "../../scrypt";
 import jwt from "jsonwebtoken";

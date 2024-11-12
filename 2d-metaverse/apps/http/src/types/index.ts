@@ -1,14 +1,14 @@
 import z from "zod";
 
 export const SignupScheme = z.object({
-    username: z.string().email(),
-    password: z.string().min(8),
+    username: z.string(),
+    password: z.string(),
     type: z.enum(["user", "admin"])
 });
 
 export const SigninSchema = z.object({
-    username: z.string().email(),
-    password: z.string().min(8)
+    username: z.string(),
+    password: z.string()
 });
 
 export const UpdateMetadataSchema = z.object({

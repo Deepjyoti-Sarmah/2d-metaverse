@@ -27,26 +27,26 @@ userRouter.post("/metadata", userMiddleware, async (req, res) => {
         });
         res.status(200).json({ message: "Metadata updated" });
     } catch (error) {
-        res.status(500).json({
+        res.status(400).json({
             message: "Internal server error"
         });
     }
 });
 
 userRouter.get("/metadata/bulk", async (req, res) => {
-    // const userIdString = (req.query.id ?? "[]") as string;
-    // const userIds = (userIdString).slice(1, userIdString?.length -1).split(",");
+    const userIdString = (req.query.id ?? "[]") as string;
+    const userIds = (userIdString).slice(1, userIdString?.length -1).split(",");
 
-    const parseQueryData = UserMetadataBulkSchema.safeParse(req.query);
+    // const parseQueryData = UserMetadataBulkSchema.safeParse(req.query);
 
-    if(!parseQueryData.success) {
-        res.status(400).json({
-            message: "Invalid query parameter"
-        });
-        return;
-    }
+    // if(!parseQueryData.success) {
+    //     res.status(400).json({
+    //         message: "Invalid query parameter"
+    //     });
+    //     return;
+    // }
 
-    const userIds = parseQueryData.data.id.map(String);
+    // const userIds = parseQueryData.data.id.map(String);
 
     try {
         const metadata = await client.user.findMany({
@@ -59,6 +59,7 @@ userRouter.get("/metadata/bulk", async (req, res) => {
                 id: true
             }
         });
+
 
         res.status(200).json({
             avatars: metadata.map(m => ({
