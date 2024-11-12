@@ -89,7 +89,7 @@ adminRouter.post("/avatar", adminMiddleware, async (req, res) => {
     const avatar = await client.avatar.create({
       data: {
         imageUrl: parseData.data.imageUrl,
-        name: parseData.data.name
+        name: parseData.data.name,
       }
     });
 

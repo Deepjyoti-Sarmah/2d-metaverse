@@ -35,7 +35,20 @@ userRouter.post("/metadata", userMiddleware, async (req, res) => {
 
 userRouter.get("/metadata/bulk", async (req, res) => {
     const userIdString = (req.query.id ?? "[]") as string;
-    const userIds = (userIdString).slice(1, userIdString?.length -1).split(",");
+    const userIds = (userIdString).slice(1, userIdString?.length - 1).split(",");
+
+    // let userIds: string[];
+
+    // try {
+    //     userIds = JSON.parse(userIdString);
+    //     if (!Array.isArray(userIds))
+    //         throw new Error("Invalid format");
+    // } catch (error) {
+    //     res.status(400).json({
+    //         message: "Invalid query parameter. Expected format: ids=[1,3,55]"
+    //     });
+    // }
+
 
     // const parseQueryData = UserMetadataBulkSchema.safeParse(req.query);
 
@@ -48,11 +61,13 @@ userRouter.get("/metadata/bulk", async (req, res) => {
 
     // const userIds = parseQueryData.data.id.map(String);
 
+    console.log("userIds", userIds);
+
     try {
         const metadata = await client.user.findMany({
             where: {
                 id: {
-                    in: userIds
+                    in: userIds.map(String)
                 }
             }, select: {
                 avatar: true,
@@ -60,6 +75,14 @@ userRouter.get("/metadata/bulk", async (req, res) => {
             }
         });
 
+        console.log("metadata", metadata);
+
+        if (!metadata) {
+            res.status(400).json({
+                message: "metadata not found"
+            });
+            return;
+        }
 
         res.status(200).json({
             avatars: metadata.map(m => ({

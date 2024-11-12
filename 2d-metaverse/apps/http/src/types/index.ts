@@ -64,7 +64,8 @@ export const UserMetadataBulkSchema = z.object({
 
 export const CreateAvatarSchema = z.object({
     imageUrl: z.string(),
-    name: z.string()
+    name: z.string(),
+    // userId: z.string()
 });
 
 export const CreateMapSchema = z.object({
