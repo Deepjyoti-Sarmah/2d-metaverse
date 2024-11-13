@@ -26,6 +26,14 @@ export class RoomManager {
     }
 
     public broadcast(message: OutgoingMessage, user: User, roomId: string) {
+        if (!this.rooms.has(roomId)) {
+            return;
+        }
 
+        this.rooms.get(roomId)?.forEach((u) => {
+            if (u.id !== user.id) {
+                u.send(message);
+            }
+        });
     }
 }
