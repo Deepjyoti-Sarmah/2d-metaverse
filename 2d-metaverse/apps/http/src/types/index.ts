@@ -44,22 +44,13 @@ export const DeleteElementSchema = z.object({
 });
 
 export const UserMetadataBulkSchema = z.object({
-    // idz: z.string()
-    //         .transform((ids) => ids.split(",")
-    //         .map(Number))
-    //         .refine((ids) => ids.every((id) => !isNaN(id)), {
-    //             message: "All ids should be valid numbers"
-    //         })
-    id: z.string()
-        .transform((ids) =>
-            ids.slice(1, -1)
-                .split(",")
-                .map((id) => id.trim())
-                .map(Number)
-        )
-        .refine((ids) => ids.every((id) => !isNaN(id)), {
-            message: "All ids should be valid numbers."
-        })
+    ids: z.string().transform((val) => {
+        // Remove outer square brackets if present
+        const trimmed = val.trim().replace(/^\[|\]$/g, '');
+
+        // Split by commas, then filter out any empty strings (in case of malformed input)
+        return trimmed.split(',').map((id) => id.trim()).filter(Boolean);
+    })
 });
 
 export const CreateAvatarSchema = z.object({

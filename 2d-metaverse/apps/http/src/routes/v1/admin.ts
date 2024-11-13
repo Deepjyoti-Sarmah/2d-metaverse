@@ -5,7 +5,9 @@ import client from "@repo/db/client"
 
 export const adminRouter = Router();
 
-adminRouter.post("/element", adminMiddleware, async (req, res) => {
+adminRouter.use(adminMiddleware);
+
+adminRouter.post("/element", async (req, res) => {
   const parseData = CreateElementSchema.safeParse(req.body);
   if (!parseData.success) {
     res.status(400).json({
@@ -41,7 +43,7 @@ adminRouter.post("/element", adminMiddleware, async (req, res) => {
   }
 });
 
-adminRouter.put("/element/:elementId", adminMiddleware, async (req, res) => {
+adminRouter.put("/element/:elementId", async (req, res) => {
   const parseData = UpdateElementSchema.safeParse(req.body);
   if (!parseData.success) {
     res.status(400).json({
@@ -76,7 +78,7 @@ adminRouter.put("/element/:elementId", adminMiddleware, async (req, res) => {
   }
 });
 
-adminRouter.post("/avatar", adminMiddleware, async (req, res) => {
+adminRouter.post("/avatar", async (req, res) => {
   const parseData = CreateAvatarSchema.safeParse(req.body);
   if (!parseData.success) {
     res.status(400).json({
@@ -93,7 +95,7 @@ adminRouter.post("/avatar", adminMiddleware, async (req, res) => {
       }
     });
 
-    console.log(avatar)
+    // console.log("avatar create",avatar)
 
     if (!avatar) {
       res.status(400).json({
