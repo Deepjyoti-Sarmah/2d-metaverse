@@ -2,7 +2,7 @@ import { WebSocket } from "ws";
 import { RoomManager } from "./RoomManager";
 import { OutgoingMessage } from "./types";
 import client from "@repo/db/client";
-import { JWT_PASSWORD } from "./config";
+import { JWT_SECRET } from "./config";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 function generateRandomString(length: number) {
@@ -32,18 +32,23 @@ export class User {
 
   initHandlers() {
     this.ws.on("message", async (data) => {
+      console.log("data", data)
       const parseData = JSON.parse(data.toString());
+      console.log("parseData", parseData)
 
       switch (parseData.type) {
-        case "join": {
+        case "join":
 
+          console.log("join received 1")
           const spaceId = parseData.payload.spaceId;
           const token = parseData.payload.token;
-          const userId = (jwt.verify(token, JWT_PASSWORD) as JwtPayload).userId
+          const userId = (jwt.verify(token, JWT_SECRET) as JwtPayload).userId
           if (!userId) {
             this.ws.close();
             return;
           }
+
+          console.log("join received 1")
           this.userId = userId;
 
           const space = await client.space.findFirst({
@@ -56,6 +61,7 @@ export class User {
             return;
           }
 
+          console.log("join received 1")
           this.spaceId = spaceId;
           RoomManager.getInstance().addUser(spaceId, this);
           this.x = Math.floor(Math.random() * space?.width);
@@ -72,6 +78,7 @@ export class User {
             }
           });
 
+          console.log("join received 1")
           RoomManager.getInstance().broadcast({
             type: "user-joined",
             payload: {
@@ -81,8 +88,8 @@ export class User {
             }
           }, this, this.spaceId!);
           break;
-        }
-        case "move": {
+
+        case "move":
           const moveX = parseData.payload.x;
           const moveY = parseData.payload.y;
 
@@ -110,7 +117,6 @@ export class User {
               y: this.y
             }
           });
-        }
       }
     });
   }
