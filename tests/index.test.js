@@ -38,7 +38,7 @@ const axios = {
   },
 }
 
-describe.skip("Authentication", () => {
+describe("Authentication", () => {
   test('User is able to sign up only once', async () => {
     const username = "kirat" + Math.random(); // kirat0.12331313
     const password = "123456";
@@ -108,7 +108,7 @@ describe.skip("Authentication", () => {
   })
 });
 
-describe.skip("User metadata endpoint", () => {
+describe("User metadata endpoint", () => {
   let token = "";
   let avatarId = ""
 
@@ -176,7 +176,7 @@ describe.skip("User metadata endpoint", () => {
   })
 });
 
-describe.skip("User avatar information", () => {
+describe("User avatar information", () => {
   let avatarId;
   let token;
   let userId;
@@ -448,7 +448,7 @@ describe("Space information", () => {
   })
 });
 
-describe.skip("Arena endpoints", () => {
+describe("Arena endpoints", () => {
   let mapId;
   let element1Id;
   let element2Id;
@@ -589,7 +589,6 @@ describe.skip("Arena endpoints", () => {
       }
     });
 
-
     const newResponse = await axios.get(`${BACKEND_URL}/api/v1/space/${spaceId}`, {
       headers: {
         "authorization": `Bearer ${userToken}`
@@ -636,7 +635,7 @@ describe.skip("Arena endpoints", () => {
   })
 });
 
-describe.skip("Admin Endpoints", () => {
+describe("Admin Endpoints", () => {
   let adminToken;
   let adminId;
   let userToken;
@@ -784,7 +783,7 @@ describe.skip("Admin Endpoints", () => {
   })
 });
 
-describe.skip("Websocket tests", () => {
+describe("Websocket tests", () => {
   let adminToken;
   let adminUserId;
   let userToken;
