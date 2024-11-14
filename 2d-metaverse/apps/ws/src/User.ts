@@ -18,8 +18,8 @@ export class User {
   public id: string;
   private spaceId?: string;
   public userId?: string;
-  private x?: number;
-  private y?: number;
+  private x: number;
+  private y: number;
   private ws: WebSocket;
 
   constructor(ws: WebSocket) {
@@ -86,8 +86,8 @@ export class User {
           const moveX = parseData.payload.x;
           const moveY = parseData.payload.y;
 
-          const xDisplacement = Math.abs(this.x! - moveX);
-          const yDisplacenent = Math.abs(this.y! - moveY);
+          const xDisplacement = Math.abs(this.x - moveX);
+          const yDisplacenent = Math.abs(this.y - moveY);
 
           if ((xDisplacement == 1 && yDisplacenent == 0) || (xDisplacement == 0 && yDisplacenent == 1)) {
             this.x = moveX;

@@ -24,8 +24,6 @@ export class RoomManager {
     this.rooms.set(spaceId, (this.rooms.get(spaceId)?.filter((u) => u.id !== user.id) ?? []));
   }
 
-
-
   public addUser(spaceId: string, user: User) {
     if (!this.rooms.has(spaceId)) {
       this.rooms.set(spaceId, [user]);
